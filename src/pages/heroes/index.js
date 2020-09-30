@@ -1,57 +1,253 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
-import maskDate from '../../utils/functions/maskDate';
+import MdSearch from "@meronex/icons/md/MdSearch";
+import schema from "../../validations/form/noValidation";
 
-import { BUTTON, CARD, CARDHERO, CARDINFO, COL, IMG, ROW, TEXT } from './styles';
-import { SUBNAVBAR } from '../../container';
+import { COL, FORM, ROW, TEXT } from "./styles";
+import { LISTHEROES, INPUTSEARCH, INPUTCOMPLETE } from "../../components";
 
 export default function Heroes() {
-   const { heroes, orderHeroes } = useSelector(state => state.auth);
-   const { profile } = useSelector(state => state.user);
-   const [ orgHeroes, setOrgHeroes ] = useState([]);
-   const [ loading, setLoading] = useState(false);
+  const { heroes } = useSelector((state) => state.auth);
+  const { profile } = useSelector((state) => state.user);
+  const [typeOrder, setTypeOrder] = useState("orderName");
+  const [orderHeroes, setOrderHeroes] = useState(heroes);
+  const [listHeroes, setListHeroes] = useState();
+  const [change, setChange] = useState(false);
+  const [limit, setLimit] = useState(10);
 
-   async function createHeroes() {
-      await setLoading(true);
-      await setOrgHeroes(orderHeroes || heroes);
-      await setLoading(false);
-   }
+  async function createHeroes() {
+    await setListHeroes(orderHeroes || heroes);
+  }
 
-   useEffect(() => {
-      createHeroes();
-   }, [orderHeroes]);
+  useEffect(() => {
+    createHeroes();
+  }, [change, limit]);
 
-   return (
-      <>
-         <SUBNAVBAR heroes={heroes} />
-         <COL sm="10" md="10" xl="10" lg="10">
-            <CARD> 
-               <ROW>
-               {loading ? <span>carregando</span> :
-               orgHeroes?.map((hero, index) => (
-                  <COL key={`${hero.id}`} sm="12" md="12" lg="6" xl="4">
-                     <CARDHERO>
-                        <IMG alt={`${hero.name}`} src={`${hero.thumbnail.path}.${hero.thumbnail.extension}`} />
-                        <CARDINFO> 
-                           <TEXT color="#fff" fontW="900" fontS="20px">{hero.name}</TEXT>
-                           {profile?.typeLike === 'series' && <TEXT color="#fff" fontW="600" fontS="14">Series: {hero.series.available}</TEXT>}
-                           {profile?.typeLike === 'stories' && <TEXT color="#fff" fontW="600" fontS="14">Stories: {hero.stories.available}</TEXT>}
-                           <TEXT color="#fff" fontW="100" fontS="12px">Modified: {maskDate(new Date(hero.modified))}</TEXT>
-                           <Link to={{ pathname: '/hero', state: { hero: heroes[index], typeLike: profile?.typeLike }}}>
-                              <BUTTON className="mt-2">Details</BUTTON>
-                           </Link>
-                        </CARDINFO>
-                     </CARDHERO>
-                  </COL>
-               ))}
-               </ROW>
-            </CARD>
-         </COL>
-      </>
-   );
+  // Cria as opções de ordenação
+  function createOptionOrder() {
+    const options = [
+      {
+        value: "orderName",
+        label: "Sort by name",
+      },
+      {
+        value: "orderDate",
+        label: "Sort by date",
+      },
+    ];
+
+    profile?.typeLike === "series" &&
+      options.push({ value: "orderSeries", label: "Sort by series" });
+    profile?.typeLike === "stories" &&
+      options.push({ value: "orderStories", label: "Sort by stories" });
+
+    return options;
+  }
+
+  // Cria as opções de limite
+  function createOptionLimit() {
+    const options = [
+      {
+        value: 5,
+        label: "Limit 5",
+      },
+      {
+        value: 10,
+        label: "Limit 10",
+      },
+      {
+        value: 25,
+        label: "Limit 25",
+      },
+    ];
+    return options;
+  }
+
+  // Ao clicar no dropdown do filtro de ordenação/limite
+  // escolhe a opção e seta um novo array ordenado ou novo limite
+  async function handleSubmit(data) {
+    if (data === "orderName") {
+      await setTypeOrder("orderName");
+      await setOrderHeroes(
+        heroes.sort(function (a, b) {
+          if (a.name > b.name) {
+            return 1;
+          }
+          if (a.name < b.name) {
+            return -1;
+          }
+          return 0;
+        })
+      );
+    } else if (data === "orderDate") {
+      await setTypeOrder("orderDate");
+      await setOrderHeroes(
+        heroes.sort(function (a, b) {
+          if (a.modified > b.modified) {
+            return 1;
+          }
+          if (a.modified < b.modified) {
+            return -1;
+          }
+          return 0;
+        })
+      );
+    } else if (data === "orderSeries") {
+      await setTypeOrder("orderSeries");
+      await setOrderHeroes(
+        heroes.sort(function (a, b) {
+          if (a.series.available > b.series.available) {
+            return 1;
+          }
+          if (a.series.available < b.series.available) {
+            return -1;
+          }
+          return 0;
+        })
+      );
+    } else if (data === "orderStories") {
+      await setTypeOrder("orderStories");
+      await setOrderHeroes(
+        heroes.sort(function (a, b) {
+          if (a.stories.available > b.stories.available) {
+            return 1;
+          }
+          if (a.stories.available < b.stories.available) {
+            return -1;
+          }
+          return 0;
+        })
+      );
+    } else if (data === 5) {
+      await setLimit(5);
+    } else if (data === 10) {
+      await setLimit(10);
+    } else if (data === 25) {
+      await setLimit(25);
+    }
+
+    await setChange(!change);
+  }
+
+  async function handleChange(data) {
+    if (typeOrder === "orderName") {
+      await setOrderHeroes(
+        heroes
+          .filter((obj) => {
+            const upperObj = obj.name.toUpperCase();
+            return upperObj.indexOf(data.target.value.toUpperCase()) !== -1;
+          })
+          .sort(function (a, b) {
+            if (a.name > b.name) {
+              return 1;
+            }
+            if (a.name < b.name) {
+              return -1;
+            }
+            return 0;
+          })
+      );
+    } else if (typeOrder === "orderDate") {
+      await setOrderHeroes(
+        heroes
+          .filter((obj) => {
+            const upperObj = obj.modified.toUpperCase();
+            return upperObj.indexOf(data.target.value.toUpperCase()) !== -1;
+          })
+          .sort(function (a, b) {
+            if (a.modified > b.modified) {
+              return 1;
+            }
+            if (a.modified < b.modified) {
+              return -1;
+            }
+            return 0;
+          })
+      );
+    } else if (typeOrder === "orderSeries") {
+      await setOrderHeroes(
+        heroes
+          .filter((obj) => {
+            const upperObj = String(obj.series.available).toUpperCase();
+            return (
+              upperObj.indexOf(String(data.target.value).toUpperCase()) !== -1
+            );
+          })
+          .sort(function (a, b) {
+            if (a.series.available > b.series.available) {
+              return 1;
+            }
+            if (a.series.available < b.series.available) {
+              return -1;
+            }
+            return 0;
+          })
+      );
+    } else if (typeOrder === "orderStories") {
+      await setOrderHeroes(
+        heroes
+          .filter((obj) => {
+            const upperObj = obj.stories.available.toUpperCase();
+            return upperObj.indexOf(data.target.value.toUpperCase()) !== -1;
+          })
+          .sort(function (a, b) {
+            if (a.stories.available > b.stories.available) {
+              return 1;
+            }
+            if (a.stories.available < b.stories.available) {
+              return -1;
+            }
+            return 0;
+          })
+      );
+    }
+
+    await setChange(!change);
+  }
+
+  return (
+    <>
+      <COL sm="12" md="12" xl="12" lg="12">
+        <ROW>
+          <COL margin>
+            <TEXT className="mb--2" color="#fff" fontW="600" fontS="100">
+              Hello {profile?.name.split(" ")}
+            </TEXT>
+            <TEXT className="mt--4" color="#ea0009" fontW="900" fontS="70">
+              found your hero?
+            </TEXT>
+            <FORM submit={handleSubmit} change={handleChange} schema={schema}>
+              <INPUTSEARCH
+                defaultValue={{ value: 10, label: "Limit 10" }}
+                options={createOptionLimit()}
+                submit={handleSubmit}
+                name="order"
+                width={100}
+              />
+              <INPUTSEARCH
+                defaultValue={{ value: "orderName", label: "Sort by name" }}
+                options={createOptionOrder()}
+                submit={handleSubmit}
+                name="order"
+                width={130}
+              />
+              <INPUTCOMPLETE
+                icon={<MdSearch size={20} color="#444" />}
+                placeholder="Filter heroes"
+                onPaste="return false"
+                onDrop="return false"
+                submit={handleChange}
+                maxLength="50"
+                name="nome"
+                autoFocus
+              />
+            </FORM>
+          </COL>
+        </ROW>
+      </COL>
+      <LISTHEROES profile={profile} heroes={listHeroes} limit={limit} />
+    </>
+  );
 }
-
-

@@ -1,4 +1,4 @@
-import md5 from '../utils/functions/md5';
+import md5 from "../utils/functions/md5";
 
 // Keys estariam em um .env, coloquei aqui apenas para simplificar o processo
 export const timeStamp = Date.now().toString();

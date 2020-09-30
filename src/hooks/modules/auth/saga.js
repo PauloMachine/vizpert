@@ -1,59 +1,58 @@
 /* eslint-disable func-names */
-import { takeLatest, call, put, all } from 'redux-saga/effects';
-import { toast } from 'react-toastify';
+import { takeLatest, call, put, all } from "redux-saga/effects";
+import { toast } from "react-toastify";
 
-import { timeStamp, publicKey, hash } from '../../../config/secret';
-import history from '../../../services/history';
-import api from '../../../services/api';
+import { timeStamp, publicKey, hash } from "../../../config/secret";
+import history from "../../../services/history";
+import api from "../../../services/api";
 
-import { questionsSuccess, questionsFailure} from './actions';
+import { questionsSuccess, questionsFailure } from "./actions";
 
 function createUrl(payload) {
-   let url;
-   const { name } = payload;
+  let url;
+  const { name } = payload;
 
-   const nameStartsWith = name.substring(0,1);
+  const nameStartsWith = name.substring(0, 1);
 
-   // Autenticação da api
-   url = `characters?&ts=${timeStamp}&apikey=${publicKey}&hash=${hash}`;
+  // Autenticação da api
+  url = `characters?&ts=${timeStamp}&apikey=${publicKey}&hash=${hash}`;
 
-   // Parametros dinamicos
-   url += `&nameStartsWith=${nameStartsWith}&limit=10`;
+  // Parametros dinamicos
+  url += `&nameStartsWith=${nameStartsWith}`;
 
-   return url;
+  return url;
 }
 
 export function* questionsIn({ payload }) {
-   try {
-      const response = yield call(api.get, createUrl(payload));
+  try {
+    const response = yield call(api.get, createUrl(payload));
 
-      const { data } = response.data;
-      const heroes = data.results;
+    const { data } = response.data;
+    const heroes = data.results;
 
-      if (!heroes) {
-         toast.error('There was no return of data from the api!');
-
-         yield put(questionsFailure());
-         return;
-      }
-
-      yield put(questionsSuccess(heroes, payload));
-      history.push('/heroes');
-   } catch (error) {
-      toast.error('An error occurred while making the request!');
+    if (!heroes) {
+      toast.error("There was no return of data from the api!");
 
       yield put(questionsFailure());
-      history.push('/');
-   }
+      return;
+    }
+
+    yield put(questionsSuccess(heroes, payload));
+    history.push("/heroes");
+  } catch (error) {
+    toast.error("An error occurred while making the request!");
+
+    yield put(questionsFailure());
+    history.push("/");
+  }
 }
 
 export function* questionReturn() {
-   yield put(questionsFailure());
-   history.push('/');
+  yield put(questionsFailure());
+  history.push("/");
 }
 
-
 export default all([
-   takeLatest('@auth/QUESTIONS_REQUEST', questionsIn),
-   takeLatest('@auth/QUESTIONS_RETURN', questionReturn),
+  takeLatest("@auth/QUESTIONS_REQUEST", questionsIn),
+  takeLatest("@auth/QUESTIONS_RETURN", questionReturn),
 ]);

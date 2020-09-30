@@ -1,60 +1,55 @@
-import styled from 'styled-components';
-import { Button, Card, Col, Row } from 'reactstrap';
+import styled from "styled-components";
+import { Button, Col, Row } from "reactstrap";
+
+import Form from "../../components/Form";
 
 export const BUTTON = styled(Button)`
-   background-color: #ea0009 !important;
-   border: none !important;
-   color: #fff !important;
-   height: 40px;
-   width: 100%;
+  background-color: #ea0009 !important;
+  border: none !important;
 `;
 
-export const CARD = styled(Card)`
-   background-color: transparent !important;
-   border: none !important;
-   justify-content: center;
-`;
+export const FORM = styled(Form)`
+  background-color: rgba(0, 0, 0, 0.7);
+  border: 2px solid #ea0009;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  display: flex;
+  width: 100% !important;
 
-export const CARDHERO = styled(Card)`
-   background-color: rgba(0,0,0,0.5) !important;
-   justify-content: space-between !important;
-   align-items: center !important;
-   flex-direction: row !important;
-   margin-bottom: 25px !important; 
-   display: flex !important;
-   height: 200px !important;
-   padding-right: 15px;
-   padding-left: 15px;
-`;
+  input {
+    color: #fff !important;
+  }
 
-export const CARDINFO = styled(Card)`
-   justify-content: space-between !important;
-   background-color: transparent !important;
-   flex-direction: column !important;
-   align-items: center !important;
-   display: flex !important;
-   width: 200px !important;
-`;
+  button {
+    margin: 7px;
+    border-radius: 50px;
+  }
 
-export const IMG = styled.img`
-   border-bottom-right-radius: 25% !important;
-   border-bottom-right-radius: 25% !important;
-   border-top-left-radius: 25% !important;
-   border-top-left-radius: 25% !important;
-   border: 10px double #fff !important;
-   height: 160px !important;
-   width: 160px !important;
+  @media (max-width: 520px) {
+    flex-wrap: wrap !important;
+  }
 `;
 
 export const TEXT = styled.h4`
-   font-weight: ${props => props.fontW};
-   font-size: ${props => props.fontS};
-   color: ${props => props.color};
+  font-size: ${(props) => (props.fontS ? `${props.fontS}px` : "20px")};
+  text-decoration: ${(props) => props.pointer && "underline"};
+  cursor: ${(props) => props.pointer && "pointer"};
+  font-weight: ${(props) => props.fontW};
+  color: ${(props) => props.color};
+
+  @media (max-width: 520px) {
+    font-size: ${(props) => `${props.fontS - 25}px`};
+  }
+`;
+
+export const COL = styled(Col)`
+  margin-bottom: ${(props) => props.margin && "100px"};
+  margin-top: ${(props) => props.margin && "30px"};
+  justify-content: center !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  display: flex !important;
 `;
 
 export const ROW = styled(Row)``;
-
-export const COL = styled(Col)``;
-
-
-

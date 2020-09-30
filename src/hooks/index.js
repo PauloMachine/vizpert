@@ -1,14 +1,14 @@
-import { persistStore } from 'redux-persist';
-import { createStore, applyMiddleware } from 'redux';
-import { promiseMiddleware } from '@adobe/redux-saga-promise';
-import createSagaMiddleware from 'redux-saga';
-import thunk from 'redux-thunk';
+import { persistStore } from "redux-persist";
+import { createStore, applyMiddleware } from "redux";
+import { promiseMiddleware } from "@adobe/redux-saga-promise";
+import createSagaMiddleware from "redux-saga";
+import thunk from "redux-thunk";
 
-import api from '../services/api';
+import api from "../services/api";
 
-import persistReducers from './persistReducers';
-import rootReducer from './modules/rootReducer';
-import rootSaga from './modules/rootSaga';
+import persistReducers from "./persistReducers";
+import rootReducer from "./modules/rootReducer";
+import rootSaga from "./modules/rootSaga";
 
 const sagaMidleware = createSagaMiddleware();
 const middlewares = applyMiddleware(thunk, sagaMidleware, promiseMiddleware);
