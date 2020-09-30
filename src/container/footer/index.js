@@ -7,7 +7,7 @@ export default function Footer() {
     <COL sm="12" md="12" xl="12" lg="12">
       <DIV>
         <TEXT color="#ea0009" fontW="200">
-          Marvel - Vizpert
+          Marvel
         </TEXT>
       </DIV>
     </COL>
