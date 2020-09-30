@@ -4,6 +4,8 @@ import { promiseMiddleware } from '@adobe/redux-saga-promise';
 import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
 
+import api from '../services/api';
+
 import persistReducers from './persistReducers';
 import rootReducer from './modules/rootReducer';
 import rootSaga from './modules/rootSaga';
@@ -15,5 +17,7 @@ const store = createStore(persistReducers(rootReducer), middlewares);
 const persistor = persistStore(store);
 
 sagaMidleware.run(rootSaga);
+
+api.registerInterceptWithStore(store);
 
 export { store, persistor };

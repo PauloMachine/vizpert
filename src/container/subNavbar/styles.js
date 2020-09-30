@@ -1,12 +1,29 @@
 import styled from 'styled-components';
-import { Col } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
 
-export const INFO = styled.span`
-   justify-content: space-between;
-   padding: 10px !important;
-   width: 100% !important;
+import Form from '../../components/Form';
+
+export const BUTTON = styled(Button)`
+   background-color: #ea0009 !important;
+   border: none !important;
+`;
+
+export const FORM = styled(Form)`
+   background-color: rgba(0, 0, 0, 0.8);
+   border: 2px solid #ea0009;
+   justify-content: center;
    align-items: center;
+   border-radius: 50px;
    display: flex;
+
+   input {
+      color: #fff !important;
+   }
+
+   button {
+      margin: 3px;
+      border-radius: 50px;
+   }
 `;
 
 export const TEXT = styled.h4`
@@ -22,7 +39,6 @@ export const TEXT = styled.h4`
 `;
 
 export const COL = styled(Col)`
-   background-color: #000 !important;
    margin-bottom: ${props => props.margin && '100px'};
    margin-top: ${props => props.margin && '30px'};
    justify-content: center !important;
@@ -31,14 +47,7 @@ export const COL = styled(Col)`
    display: flex !important;
 `;
 
-export const DIV = styled.div`
-   border: 1px solid #ea0009 !important;
-   padding-right: 10px;
-   border-radius: 10px;
-   padding-left: 10px;
-   height: 35px;
-`;
-
+export const ROW = styled(Row)``;
 
 
 

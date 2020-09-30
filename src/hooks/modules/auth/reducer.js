@@ -1,6 +1,7 @@
 import produce from 'immer';
 
 const INITIAL_STATE = {
+   orderHeroes: null,
    loading: false,
    signed: false,
    heroes: null,
@@ -27,9 +28,17 @@ export default function auth(state = INITIAL_STATE, action) {
          }
 
          case '@auth/QUESTIONS_RETURN': {
+            draft.orderHeroes = null;
             draft.loading = false;
             draft.signed = false;
             draft.heroes = null;
+            break;
+         }
+
+         case '@auth/ORDER_HEROES': {
+            draft.loading = false;
+            draft.orderHeroes = action.payload.orderHeroes;
+            draft.loading = true;
             break;
          }
 

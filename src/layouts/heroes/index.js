@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { NAVBAR } from '../../container';
+import { NAVBAR, FOOTER } from '../../container';
 
 import { CONTAINER } from './styles';
 
 export default function HeroesLayout({ children }) {
    return (
-   <CONTAINER>
+      <CONTAINER>
          <NAVBAR />
          {children}
+         <FOOTER />
       </CONTAINER>
    );
 }

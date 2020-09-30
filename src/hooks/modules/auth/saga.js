@@ -10,7 +10,7 @@ import { questionsSuccess, questionsFailure} from './actions';
 
 function createUrl(payload) {
    let url;
-   const { type, name, date } = payload;
+   const { name } = payload;
 
    const nameStartsWith = name.substring(0,1);
 
@@ -18,7 +18,7 @@ function createUrl(payload) {
    url = `characters?&ts=${timeStamp}&apikey=${publicKey}&hash=${hash}`;
 
    // Parametros dinamicos
-   url = url + `&nameStartsWith=${nameStartsWith}&limit=10`;
+   url += `&nameStartsWith=${nameStartsWith}&limit=10`;
 
    return url;
 }
@@ -27,7 +27,8 @@ export function* questionsIn({ payload }) {
    try {
       const response = yield call(api.get, createUrl(payload));
 
-      const heroes = response.data;
+      const { data } = response.data;
+      const heroes = data.results;
 
       if (!heroes) {
          toast.error('There was no return of data from the api!');
@@ -37,8 +38,8 @@ export function* questionsIn({ payload }) {
       }
 
       yield put(questionsSuccess(heroes, payload));
+      history.push('/heroes');
    } catch (error) {
-      console.log(error);
       toast.error('An error occurred while making the request!');
 
       yield put(questionsFailure());
@@ -46,6 +47,13 @@ export function* questionsIn({ payload }) {
    }
 }
 
+export function* questionReturn() {
+   yield put(questionsFailure());
+   history.push('/');
+}
+
+
 export default all([
    takeLatest('@auth/QUESTIONS_REQUEST', questionsIn),
+   takeLatest('@auth/QUESTIONS_RETURN', questionReturn),
 ]);

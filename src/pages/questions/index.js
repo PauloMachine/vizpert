@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SemipolarLoading } from 'react-loadingg';
+import MdcTelevisionClassic from '@meronex/icons/mdc/MdcTelevisionClassic';
 import MdAccountCircle from '@meronex/icons/md/MdAccountCircle';
 
 import { questionsRequest } from '../../hooks/modules/auth/actions';
@@ -16,32 +17,31 @@ export default function Questions() {
    const dispatch = useDispatch();
 
    async function handleSubmit(data){
-      const { type, name, date } = data;
+      const { typeLike, name } = data;
 
-      dispatch(questionsRequest(type, name, date));
+      dispatch(questionsRequest(typeLike, name));
    }
 
    return (
-      <COL sm="12" md="8" xl="4" lg="3">
+      <COL sm="12" md="8" lg="4" xl="3" >
          <CARD>
-            <DIV className="text-center mb-4">
+            <DIV className="text-center mb-5">
                <IMG className="img-fluid" src={logo} alt="logo" />
             </DIV>
             <FORM schema={schema} submit={handleSubmit}>
                <INPUTSELECT
-                  icon={<MdAccountCircle size={24} color="#aaa" />}
-                  placeholder="Do you like series or comics more?"
-                  name="type"
-                  isLoading={loading}
+                  icon={<MdcTelevisionClassic size={24} color="#aaa" />}
+                  placeholder="Do you like series or stories more?"
+                  name="typeLike"
                   options={[{
-                     value: 'Series',
+                     value: 'series',
                      label: 'Series'
                   },
                   {
-                     value: 'Comics',
-                     label: 'Comics'
+                     value: 'stories',
+                     label: 'Stories'
                   }]}
-                  defaultValue={{ value: 'Series', label: 'Series' }}
+                  defaultValue={{ value: 'series', label: 'Series' }}
                />
                <INPUT
                   icon={<MdAccountCircle size={24} color="#aaa" />}
@@ -49,16 +49,8 @@ export default function Questions() {
                   name="name"
                   type="text"
                />
-               <INPUT
-                  icon={<MdAccountCircle size={24} color="#aaa" />}
-                  placeholder="What's your birth date?"
-                  name="date"
-                  type="text"
-                  option="date"
-                  maxLength="10"
-               />
-               <BUTTON type="submit" className="mt-4">
-                  {loading ? <SemipolarLoading color="#21c7c2" /> : 'START'}
+               <BUTTON type="submit" className="mt-5">
+                  {loading ? <SemipolarLoading color="#fff" /> : 'START'}
                </BUTTON>
             </FORM>
          </CARD>

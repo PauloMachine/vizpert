@@ -1,7 +1,7 @@
-export function questionsRequest(type, name, date) {
+export function questionsRequest(typeLike, name) {
    return {
       type: '@auth/QUESTIONS_REQUEST',
-      payload: { type, name, date },
+      payload: { typeLike, name },
    };
 }
 
@@ -17,4 +17,18 @@ export function questionsFailure() {
       type: '@auth/QUESTIONS_FAILURE',
    };
 }
+
+export function questionsReturn() {
+   return {
+      type: '@auth/QUESTIONS_RETURN',
+   };
+}
+
+export function newOrderHeroes(orderHeroes) {
+   return {
+      type: '@auth/ORDER_HEROES',
+      payload: { orderHeroes },
+   };
+}
+
 

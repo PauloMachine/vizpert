@@ -48,7 +48,7 @@ export const CARD = styled(Card)`
    border-top-right-radius: 50px !important;
    background-color: #FFF !important;
    border: none !important;
-   padding: 50px;
+   padding: 30px;
 `;
 
 export const COL = styled(Col)``;

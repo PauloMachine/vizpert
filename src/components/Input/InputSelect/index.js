@@ -105,20 +105,20 @@ export default function InputSelect({ options, name, icon, defaultValue, isMulti
                   </INPUTGROUPTEXT>
                </DIV>
                <INPUT
-                  className="select"
+                  defaultValue={isMulti ? null : defaultValue}
                   onChange={values => handleSubmit(values)}
                   components={animatedComponents}
-                  styles={colourStyles}
-                  closeMenuOnSelect
-                  options={options}
-                  isLoading={isLoading}
-                  ref={inputRef}
-                  value={value}
-                  isMulti={!!isMulti}
-                  placeholder=""
-                  defaultValue={isMulti ? null : defaultValue}
                   onFocus={handleInputFocus}
                   onBlur={handleInputBlur}
+                  styles={colourStyles}
+                  isLoading={isLoading}
+                  isMulti={!!isMulti}
+                  className="select"
+                  closeMenuOnSelect
+                  options={options}
+                  ref={inputRef}
+                  placeholder=""
+                  value={value}
                />
                <LABEL isfocused={isFocused} iserrored={!!error} isfield={isField}>
                   {rest.placeholder}

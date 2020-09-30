@@ -1,14 +1,6 @@
 import styled from 'styled-components';
 import { Col } from 'reactstrap';
 
-export const INFO = styled.span`
-   justify-content: space-between;
-   padding: 10px !important;
-   width: 100% !important;
-   align-items: center;
-   display: flex;
-`;
-
 export const TEXT = styled.h4`
    font-size: ${props => props.fontS ? `${props.fontS}px` : '20px'};
    text-decoration: ${props => props.pointer && 'underline'};
@@ -22,13 +14,14 @@ export const TEXT = styled.h4`
 `;
 
 export const COL = styled(Col)`
-   background-color: #000 !important;
    margin-bottom: ${props => props.margin && '100px'};
    margin-top: ${props => props.margin && '30px'};
    justify-content: center !important;
    flex-direction: column !important;
+   background-color: #000 !important;
    align-items: center !important;
    display: flex !important;
+   padding: 10px !important;
 `;
 
 export const DIV = styled.div`

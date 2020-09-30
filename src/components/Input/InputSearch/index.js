@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from 'react';
 import { useField } from '@unform/core';
 import PropTypes from 'prop-types';
@@ -6,7 +7,7 @@ import makeAnimated from 'react-select/animated';
 
 const animatedComponents = makeAnimated();
 
-export default function InputSearch({ options, name, icon, defaultValue, isMulti, isLoading, ...rest  }) {
+export default function InputSearch({ options, name, defaultValue, isMulti }) {
    const { fieldName, registerField } = useField(name);
    const [isDefaultValue, setIsDefaultValue] = useState(false);
    const [value] = useState();
@@ -25,7 +26,7 @@ export default function InputSearch({ options, name, icon, defaultValue, isMulti
          inputRef.current.value = defaultValue.value;
          setIsDefaultValue(true);
       }
-   }, [defaultValue]);
+   }, [defaultValue, isDefaultValue]);
 
    const colourStyles = {
       control: styles => ({
@@ -36,7 +37,7 @@ export default function InputSearch({ options, name, icon, defaultValue, isMulti
          width: 220,
          height: 56,
          fontSize: 16,
-         color: '#fff !important',
+         color: '#fff',
          zIndex: 1,
          boxShadow: 'none',
          '&:hover': {
@@ -49,22 +50,27 @@ export default function InputSearch({ options, name, icon, defaultValue, isMulti
       if (values?.length > 0) {
          inputRef.current.value = values.map(obj => obj.value).join(',');
       } else {
-         inputRef.current.value = null;
+         // Verifica se é somente escolha de uma unica opção
+         if (!isMulti && values !== '' && values !== null && values !== undefined) {
+            inputRef.current.value = values.value;
+         } else {
+            inputRef.current.value = null;
+         }
       }
    }
 
    return (
       <Select
+         defaultValue={isMulti ? null : defaultValue}
          onChange={values => handleSubmit(values)}
          components={animatedComponents}
          placeholder="Order content"
          styles={colourStyles}
-         defaultValue={isMulti ? null : defaultValue}
+         isMulti={!!isMulti}
          closeMenuOnSelect
          options={options}
          ref={inputRef}
          value={value}
-         isMulti
       />
    );
 }
@@ -72,13 +78,10 @@ export default function InputSearch({ options, name, icon, defaultValue, isMulti
 InputSearch.propTypes = {
    name: PropTypes.string.isRequired,
    options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]).isRequired,
-   icon: PropTypes.element.isRequired,
    isMulti: PropTypes.element.isRequired,
    defaultValue: PropTypes.element,
-   isLoading: PropTypes.bool,
 };
 
 InputSearch.defaultProps = {
    defaultValue: {},
-   isLoading: false,
 };

@@ -16,32 +16,35 @@ export const CARD = styled(Card)`
 `;
 
 export const CARDHERO = styled(Card)`
-   display: flex !important;
+   background-color: rgba(0,0,0,0.5) !important;
+   justify-content: space-between !important;
    align-items: center !important;
    flex-direction: row !important;
-   justify-content: center !important;
-   background-color: transparent !important;
    margin-bottom: 25px !important; 
+   display: flex !important;
+   height: 200px !important;
+   padding-right: 15px;
+   padding-left: 15px;
 `;
 
 export const CARDINFO = styled(Card)`
-   display: flex !important;
-   align-items: center !important;
-   flex-direction: column !important;
    justify-content: space-between !important;
    background-color: transparent !important;
-   width: 300px !important;
-   padding: 30px;
+   flex-direction: column !important;
+   align-items: center !important;
+   display: flex !important;
+   width: 200px !important;
 `;
 
 export const IMG = styled.img`
-   border: 10px double #fff;
-   border-radius: 50%;
-   height: 200px;
-   width: 200px;
+   border-bottom-right-radius: 25% !important;
+   border-bottom-right-radius: 25% !important;
+   border-top-left-radius: 25% !important;
+   border-top-left-radius: 25% !important;
+   border: 10px double #fff !important;
+   height: 160px !important;
+   width: 160px !important;
 `;
-
-export const ROW = styled(Row)``;
 
 export const TEXT = styled.h4`
    font-weight: ${props => props.fontW};
@@ -49,6 +52,9 @@ export const TEXT = styled.h4`
    color: ${props => props.color};
 `;
 
+export const ROW = styled(Row)``;
+
 export const COL = styled(Col)``;
+
 
 
