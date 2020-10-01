@@ -83,7 +83,7 @@ export default function InputSelect({
   function handleSubmit(values) {
     if (values?.length > 0) {
       inputRef.current.value = values.map((obj) => obj.value).join(",");
-    } else if (values?.length < 50) {
+    } else {
       // Verifica se é somente escolha de uma unica opção
       if (
         !isMulti &&
@@ -128,20 +128,20 @@ export default function InputSelect({
             </INPUTGROUPTEXT>
           </DIV>
           <INPUT
-            className="select"
+            defaultValue={isMulti ? null : defaultValue}
             onChange={(values) => handleSubmit(values)}
             components={animatedComponents}
-            styles={colourStyles}
-            closeMenuOnSelect
-            options={options}
-            isLoading={isLoading}
-            ref={inputRef}
-            value={value}
-            isMulti={!!isMulti}
-            placeholder=""
-            defaultValue={isMulti ? null : defaultValue}
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
+            styles={colourStyles}
+            isLoading={isLoading}
+            isMulti={!!isMulti}
+            className="select"
+            closeMenuOnSelect
+            options={options}
+            placeholder=""
+            ref={inputRef}
+            value={value}
           />
           <LABEL isfocused={isFocused} iserrored={!!error} isfield={isField}>
             {rest.placeholder}

@@ -19,6 +19,7 @@ export default function Questions() {
   async function handleSubmit(data) {
     const { typeLike, name } = data;
 
+    console.log(typeLike);
     dispatch(questionsRequest(typeLike, name));
   }
 

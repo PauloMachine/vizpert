@@ -24,10 +24,3 @@ export function questionsReturn() {
   };
 }
 
-export function newOrderHeroes(orderHeroes, limitHeroes) {
-  console.log(orderHeroes, limitHeroes);
-  return {
-    type: "@auth/ORDER_HEROES",
-    payload: { orderHeroes, limitHeroes },
-  };
-}
