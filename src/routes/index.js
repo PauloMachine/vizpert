@@ -3,6 +3,7 @@ import { Switch } from "react-router-dom";
 
 // Pages
 import Questions from "../pages/questions";
+import NotFound from "../pages/notFound";
 import Heroes from "../pages/heroes";
 import Hero from "../pages/hero";
 
@@ -15,6 +16,7 @@ export default function Routes() {
       <Route path="/" component={Questions} exact />
       <Route path="/heroes" component={Heroes} isPrivate />
       <Route path="/hero" component={Hero} isPrivate />
+      <Route path="*" component={NotFound} isPrivate />
     </Switch>
   );
 }

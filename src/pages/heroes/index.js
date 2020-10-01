@@ -131,6 +131,7 @@ export default function Heroes() {
     await setChange(!change);
   }
 
+  // AutoComplete dos heroes e ordena pelo tipo atual
   async function handleChange(data) {
     if (typeOrder === "orderName") {
       await setOrderHeroes(

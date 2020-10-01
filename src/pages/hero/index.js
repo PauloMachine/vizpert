@@ -45,9 +45,9 @@ export default function Hero({ location }) {
           )}
           <TEXT color="#fff" fontW="600" fontS="10">
             {(typeLike === "series" && hero.series.available) ||
-              (typeLike === "stories" && hero.stories.available
+              (typeLike === "stories" && hero.stories.available)
                 ? "Some examples:"
-                : "No examples")}
+                : "No examples"}
           </TEXT>
           {typeLike === "series" &&
             hero.series.items.map(
